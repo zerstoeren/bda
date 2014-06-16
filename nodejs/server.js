@@ -1,7 +1,7 @@
 var http = require("http");
 var url = require("url");
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://codexcom01.cloudapp.net/test');
 
 var Schema = mongoose.Schema;
 
