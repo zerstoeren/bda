@@ -26,3 +26,8 @@ if (Meteor.isServer) {
     });
   });
 }
+
+Test the JSON echo route:
+
+curl -H "Content-Type: application/json" -d '{"test": "this"}' codexcom01.cloudapp.net:3000/serverRoute
+
