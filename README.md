@@ -8,6 +8,8 @@ To test node.js:
 
 node index.js
 
+Dependencies: mongoose, mongodb
+
 Separate window: Upload some test JSON by running data.sh
 
 Output
