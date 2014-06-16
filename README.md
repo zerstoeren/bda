@@ -4,15 +4,18 @@ bda
 planx junk
 
 
-To test node.js:
+Steps:
+
+1. Run meteor on codexcom01.cloudapp.net to start Mongo server
+2. Run node.js server server
 
 node index.js
 
 Dependencies: mongoose, mongodb
 
-Separate window: Upload some test JSON by running data.sh
+3. Upload some test JSON by running data.sh
 
-Output
+4. Server output
 
 ```
 Server has started.
