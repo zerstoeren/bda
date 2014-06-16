@@ -1,2 +1,2 @@
-curl -H "Content-Type: application/json" -d '{"test": "this"}' http://localhost:8888/netflow
+curl -H "Content-Type: application/json" -d '{"test": "this"}' codexcom01.cloudapp.net:3000/serverRoute
 
