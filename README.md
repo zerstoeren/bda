@@ -4,10 +4,12 @@ bda
 planx junk
 
 
-To test node JS:
+To test node.js:
 
 node index.js
+
 Output
+
 ```
 Server has started.
 Request for /netflow received.
