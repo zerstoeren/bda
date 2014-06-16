@@ -6,23 +6,23 @@ planx junk
 
 Steps:
 
-1. Run meteor on codexcom01.cloudapp.net to start Mongo server
-2. Run node.js server server
+    In meteor app server code
+    // code to run on server at startup
 
-node index.js
 
-Dependencies: mongoose, mongodb
+if (Meteor.isServer) {
+  Meteor.startup(function () {
+    // code to run on server at startup
+    Router.map(function () {
+    this.route('serverRoute', {
+      where: 'server',
 
-3. Upload some test JSON by running data.sh
-
-4. Server output
-
-```
-Server has started.
-Request for /netflow received.
-About to route a request for /netflow
-netflow route
-got post
-{ test: 'this' }
-```
-
+      action: function () {
+        var body = this.request.body;
+        this.response.writeHead(200, {'Content-Type': 'text/html'});
+        this.response.end('got: ' + JSON.stringify(body));      
+      }
+    });
+    });
+  });
+}
