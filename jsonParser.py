@@ -3,7 +3,7 @@ import sys
 import os.path
 import httplib, urllib2
 
-url = "http://codexcom01.cloudapp.net:3000/ingestall"
+url = "http://codexcom01.cloudapp.net:3000/insertall"
 header = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 if (os.path.isfile(sys.argv[1])):
