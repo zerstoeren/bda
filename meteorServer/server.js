@@ -1,5 +1,4 @@
-
-r.isClient) {
+if (Meteor.isClient) {
   Template.hello.greeting = function () {
     return "Welcome to marktest.";
   };
@@ -29,6 +28,19 @@ if (Meteor.isServer) {
       	  Test.insert(body);
         }
       });
+      this.route('insertall', {
+        where: 'server',
+
+        action: function () {
+          console.log("in insert all code");
+          var body = this.request.body;
+          this.response.writeHead(200, {'Content-Type': 'text/html'});
+          this.response.end('got all');
+          for (var testData in body) {
+            Test.insert(testData);
+          }
+        }
+      });
       this.route('testDetail', {
         where: 'server',
         path: '/get/:start/:end',
@@ -44,8 +56,8 @@ if (Meteor.isServer) {
           console.log(edate.toISOString());
           var obj = Test.find({time: {$gte: sdate.toISOString(), $lte: edate.toISOString()}}).fetch();
           console.log("after read");
-          console.log("read: " + obj);
-          console.log(obj.length);
+          //console.log("read: " + obj);
+          //console.log(obj.length);
           var json = JSON.stringify(obj);
           this.response.setHeader('Content-Type', 'application/json');
           this.response.end(json);
@@ -60,8 +72,8 @@ if (Meteor.isServer) {
           console.log("before read");
           var obj = Test.find().fetch();
           console.log("after read");
-          console.log("read: " + obj);
-          console.log(obj.length);
+          //console.log("read: " + obj);
+          //console.log(obj.length);
           var json = JSON.stringify(obj);
           this.response.setHeader('Content-Type', 'application/json');
           this.response.end(json);
