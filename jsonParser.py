@@ -1,6 +1,15 @@
 from scapy.all import *
+import sys
+import os.path
 
-pcap = rdpcap("capfiles/airportSniffHwGVg3.cap")
+if (os.path.isfile(sys.argv[1])):
+   print "Parsing..." 
+else:
+    print "File not found, exiting..."
+    sys.exit()
+
+#pcap = rdpcap("capfiles/airportSniffHwGVg3.cap")
+pcap = rdpcap(sys.argv[1])
 f = open('json', 'w')
 
 for i in pcap:
@@ -16,20 +25,21 @@ for i in pcap:
     except:
         pass
     try:
-        f.write("\n\"sport\":\""+i[IP].sport+"\"")
-        f.write("\n\"dport\":\""+i[IP].dport+"\"")
-    except:
+        f.write("\n\"sport\":\""+str(i.sport)+"\"")
+        f.write("\n\"dport\":\""+str(i.dport)+"\"")
+    except AttributeError:
         pass
     try:
-        f.write("\nprotocol:TBD")
+        proto = i.getlayer(6).name
     except:
-        pass
+        proto = ""
+    f.write("\n\"protocol\":\""+str(proto)+"\"")
+#    try:
+#        f.write("\nuser:TBD")
+#    except:
+#        pass
     try:
-        f.write("\nuser:TBD")
-    except:
-        pass
-    try:
-        f.write("\n\"time\":\""+str(i.time)+"\"")
+        f.write("\n\"time\":\""+str(int(i.time))+"\"")
     except:
         pass
     try:
