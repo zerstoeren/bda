@@ -3,7 +3,7 @@ import sys
 import os.path
 import httplib, urllib2
 
-url = "http://codexcom01.clouapp.net:3000/ingest"
+url = "http://codexcom01.cloudapp.net:3000/insertall"
 header = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 if (os.path.isfile(sys.argv[1])):
@@ -16,6 +16,8 @@ else:
 pcap = rdpcap(sys.argv[1])
 f = open('json', 'w')
 
+f.write("{\n\"items\":[\n")
+
 for i in pcap:
     try:
         proto = i.getlayer(6).name
@@ -24,37 +26,49 @@ for i in pcap:
     except:
         continue
 
-    f.write("netflow {\n")
+    f.write("{\n")
     try:
-        f.write("\"smac\":\""+i[Dot11].addr1+"\"")
-        f.write("\n\"dmac\":\""+i[Dot11].addr2+"\"")
+        f.write("\"smac\":\""+i[Dot11].addr1+"\",")
+        f.write("\n\"dmac\":\""+i[Dot11].addr2+"\",")
     except:
         pass
     try:
-        f.write("\n\"sip\":\""+i[IP].src+"\"")
-        f.write("\n\"dip\":\""+i[IP].dst+"\"")
+        f.write("\n\"sip\":\""+i[IP].src+"\",")
+        f.write("\n\"dip\":\""+i[IP].dst+"\",")
     except:
         pass
     try:
-        f.write("\n\"sport\":\""+str(i.sport)+"\"")
-        f.write("\n\"dport\":\""+str(i.dport)+"\"")
+        f.write("\n\"sport\":\""+str(i.sport)+"\",")
+        f.write("\n\"dport\":\""+str(i.dport)+"\",")
     except AttributeError:
         pass
-    f.write("\n\"protocol\":\""+str(proto)+"\"")
+    f.write("\n\"protocol\":\""+str(proto)+"\",")
+    try:
+        f.write("\n\"qclass\":\""+i[UDP][DNSQR].qname+"\",")
+    except:
+        pass
 #    try:
 #        f.write("\nuser:TBD")
 #    except:
 #        pass
     try:
-        f.write("\n\"time\":\""+str(int(i.time))+"\"")
+        f.write("\nbytes:\""+i[IP].len+"\",")
     except:
         pass
     try:
-        f.write("\nbytes:\""+i[IP].len+"\"")
+        f.write("\n\"time\":\""+str(int(i.time))+"\"")
     except:
         pass
-    f.write("\n}\n")
+    f.write("\n},\n")
+
+f.write("{\"\":\"\"}")
+f.write("]\n}")
+
+
+
 f.close()
+
+print "Uploading to "+url
 
 data = open('json').read()
 req = urllib2.Request(url)
