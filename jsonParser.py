@@ -83,5 +83,7 @@ try:
 except URLError:
     print "*** Error, re-trying..."
     response = urllib2.urlopen(req, data)
+except HTTPError:
+    print "*** File too large, skipping..."
 print response.geturl()
 print response.read()
