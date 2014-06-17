@@ -2,6 +2,7 @@ from scapy.all import *
 import sys
 import os.path
 import httplib, urllib2
+import json
 
 url = "http://codexcom01.cloudapp.net:3000/insertall"
 header = {'Content-type': 'application/json', 'Accept': 'text/plain'}
@@ -44,7 +45,8 @@ for i in pcap:
         pass
     f.write("\n\"protocol\":\""+str(proto)+"\",")
     try:
-        f.write("\n\"qclass\":\""+i[UDP][DNSQR].qname+"\",")
+        mpa = dict.fromkeys(range(32))
+        f.write("\n\"qclass\":"+json.dumps(i[UDP][DNSQR].qname)+",")
     except:
         pass
 #    try:
@@ -68,6 +70,9 @@ f.write("]\n}")
 
 f.close()
 
+if os.stat('json').st_size < 1:
+    print "Empty JSON file, skipping upload..."
+    sys.exit()
 print "Uploading to "+url
 
 data = open('json').read()
