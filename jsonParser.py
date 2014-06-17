@@ -1,6 +1,10 @@
 from scapy.all import *
 import sys
 import os.path
+import httplib, urllib2
+
+url = "http://codexcom01.clouapp.net:3000/ingest"
+header = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 
 if (os.path.isfile(sys.argv[1])):
    print "Parsing..." 
@@ -51,3 +55,9 @@ for i in pcap:
         pass
     f.write("\n}\n")
 f.close()
+
+data = open('json').read()
+req = urllib2.Request(url)
+req.add_header('Content-Type', 'application/json')
+response = urllib2.urlopen(req, data)
+print response
