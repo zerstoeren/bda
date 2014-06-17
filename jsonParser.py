@@ -56,6 +56,8 @@ for i in pcap:
     f.write("\n}\n")
 f.close()
 
+print "Uploading to "+url
+
 data = open('json').read()
 req = urllib2.Request(url)
 req.add_header('Content-Type', 'application/json')
