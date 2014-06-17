@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -d '{"col":[{"test1": "test1", "time" : "2014-06-16T23:41:02.000Z"},{"test2": "test2", "time" : "2014-06-16T23:41:02.000Z"}]}' codexcom01.cloudapp.net:3000/insertall
