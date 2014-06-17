@@ -74,4 +74,5 @@ data = open('json').read()
 req = urllib2.Request(url)
 req.add_header('Content-Type', 'application/json')
 response = urllib2.urlopen(req, data)
-print response
+print response.geturl()
+print response.read()
