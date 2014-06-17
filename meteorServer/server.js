@@ -34,9 +34,13 @@ if (Meteor.isServer) {
         action: function () {
           console.log("in insert all code");
           var body = this.request.body;
+          var items = body["items"];
+          //console.log(items);
           this.response.writeHead(200, {'Content-Type': 'text/html'});
           this.response.end('got all');
-          for (var testData in body) {
+          for (var i = 0; i < items.length; i++) {
+            var testData = items[i];
+            console.log("inserting: " + testData);
             Test.insert(testData);
           }
         }
@@ -91,4 +95,3 @@ if (Meteor.isServer) {
     });
   });
 }
-
