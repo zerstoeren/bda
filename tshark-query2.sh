@@ -1,0 +1,1 @@
+tshark -i en0 -T fields -e frame.time_epoch -e tcp.srcip -e tcp.srcport -e tcp.dstip -e tcp.dstport -e http.request.version -e http.request.method -e http.host -e http.request.uri -e http.response.code -e http.content_type -e http.content_length -e http.location -e http.referer -Y "http.response.code==200"
