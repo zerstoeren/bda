@@ -1,4 +1,5 @@
-if (Meteor.isClient) {
+
+r.isClient) {
   Template.hello.greeting = function () {
     return "Welcome to marktest.";
   };
@@ -72,7 +73,7 @@ if (Meteor.isServer) {
         template: 'testDetail',
         action: function() {
           console.log("in delete code");
-          Test.remove();
+          Test.remove({});
         }
       });
     });
