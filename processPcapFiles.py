@@ -1,6 +1,6 @@
 import os
 import glob
-files = [ f for f in glob.glob("tbd/*.pcap") ]
+files = [ f for f in glob.glob("tbd/*.cap") ]
 for i in files:
     print "Processing "+i
     os.system("python "+os.path.abspath("jsonParser.py") +" "+i)
