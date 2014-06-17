@@ -1,0 +1,1 @@
+tshark -V -R "tcp.port ==80 && (http.request || http.response)" | awk "/Hypertext Transfer Protocol/,/Frame/ { print };/Transmission Control Protocol/{print};/Internet Protocol/{print}" | grep -v Frame
