@@ -78,6 +78,10 @@ print "Uploading to "+url
 data = open('json').read()
 req = urllib2.Request(url)
 req.add_header('Content-Type', 'application/json')
-response = urllib2.urlopen(req, data)
+try:
+    response = urllib2.urlopen(req, data)
+except URLError:
+    print "*** Error, re-trying..."
+    response = urllib2.urlopen(req, data)
 print response.geturl()
 print response.read()
