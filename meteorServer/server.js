@@ -1,3 +1,17 @@
+if (Meteor.isClient) {
+  Template.hello.greeting = function () {
+    return "Welcome to marktest.";
+  };
+
+  Template.hello.events({
+    'click input': function () {
+      // template data, if any, is available in 'this'
+      if (typeof console !== 'undefined')
+        console.log("You pressed the button");
+    }
+  });
+}
+
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
@@ -7,11 +21,11 @@ if (Meteor.isServer) {
         where: 'server',
 
         action: function () {
-          console.log("in insert code");
+	  console.log("in insert code");
           var body = this.request.body;
           this.response.writeHead(200, {'Content-Type': 'text/html'});
-          this.response.end('got: ' + JSON.stringify(body));
-          Test.insert(body);
+          this.response.end('got: ' + JSON.stringify(body));      
+      	  Test.insert(body);
         }
       });
       this.route('testDetail', {
@@ -36,6 +50,32 @@ if (Meteor.isServer) {
           this.response.end(json);
         }
       });
+      this.route('testDetail', {
+        where: 'server',
+        path: '/getall',
+        template: 'testDetail',
+        action: function() {
+          console.log("in get all code");
+          console.log("before read");
+          var obj = Test.find().fetch();
+          console.log("after read");
+          console.log("read: " + obj);
+          console.log(obj.length);
+          var json = JSON.stringify(obj);
+          this.response.setHeader('Content-Type', 'application/json');
+          this.response.end(json);
+        }
+      });
+      this.route('testDetail', {
+        where: 'server',
+        path: '/delete',
+        template: 'testDetail',
+        action: function() {
+          console.log("in delete code");
+          Test.remove();
+        }
+      });
     });
   });
 }
+
