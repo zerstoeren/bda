@@ -1,4 +1,5 @@
-f (Meteor.isServer) {
+
+if(Meteorr.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
     Test = new Meteor.Collection("testobj");
@@ -16,18 +17,22 @@ f (Meteor.isServer) {
       });
       this.route('testDetail', {
         where: 'server',
-        path: '/get/:mwid',
+        path: '/get/:start/:end',
+        template: 'testDetail',
         action: function() {
           console.log("in get code");
-          console.log("args: " + this.params.mwid);
+          console.log("args: " + this.params.start + " " + this.params.end);
           console.log("before read");
-          var obj =  Test.findOne({test: this.params.mwid});
-          console.log("read: " + obj);
+          var obj = Test.find().fetch();
+          //var obj = Test.find({time: {$gte: this.params.start, $lte: this.params.end}}).fetch();
           console.log("after read");
-          console.log(JSON.stringify(obj));
+          console.log("read: " + obj);
+          console.log(obj.length);
+          var json = JSON.stringify(obj);
+          this.response.setHeader('Content-Type', 'application/json');
+          this.response.end(json);
         }
       });
     });
   });
 }
-
