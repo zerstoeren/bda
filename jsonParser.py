@@ -13,6 +13,13 @@ pcap = rdpcap(sys.argv[1])
 f = open('json', 'w')
 
 for i in pcap:
+    try:
+        proto = i.getlayer(6).name
+        if "802.11 Information Element" in proto:
+            continue
+    except:
+        continue
+
     f.write("netflow {\n")
     try:
         f.write("\"smac\":\""+i[Dot11].addr1+"\"")
@@ -29,10 +36,6 @@ for i in pcap:
         f.write("\n\"dport\":\""+str(i.dport)+"\"")
     except AttributeError:
         pass
-    try:
-        proto = i.getlayer(6).name
-    except:
-        proto = ""
     f.write("\n\"protocol\":\""+str(proto)+"\"")
 #    try:
 #        f.write("\nuser:TBD")
